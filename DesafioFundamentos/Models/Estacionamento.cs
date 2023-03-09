@@ -2,6 +2,8 @@ namespace DesafioFundamentos.Models
 {
     public class Estacionamento
     {
+        decimal ValorPago;
+        string formaDePagamento;
         private decimal precoInicial = 0;
         private decimal precoPorHora = 0;
         private List<string> veiculos = new List<string>();
@@ -14,38 +16,113 @@ namespace DesafioFundamentos.Models
 
         public void AdicionarVeiculo()
         {
-            // TODO: Pedir para o usuário digitar uma placa (ReadLine) e adicionar na lista "veiculos"
-            // *IMPLEMENTE AQUI*
+            
             Console.WriteLine("Digite a placa do veículo para estacionar:");
+            veiculos.Add(Console.ReadLine().ToUpper());
+
         }
 
         public void RemoverVeiculo()
         {
+            string placa = "";
             Console.WriteLine("Digite a placa do veículo para remover:");
 
-            // Pedir para o usuário digitar a placa e armazenar na variável placa
-            // *IMPLEMENTE AQUI*
-            string placa = "";
+           
+            placa = Console.ReadLine();
 
             // Verifica se o veículo existe
             if (veiculos.Any(x => x.ToUpper() == placa.ToUpper()))
             {
-                Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
-
-                // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
-                // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
-                // *IMPLEMENTE AQUI*
                 int horas = 0;
-                decimal valorTotal = 0; 
+                decimal valorTotal = 0;
 
-                // TODO: Remover a placa digitada da lista de veículos
-                // *IMPLEMENTE AQUI*
 
-                Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
+                Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
+                horas = Convert.ToInt16(Console.ReadLine());
+                
+                
+                valorTotal = (precoInicial + precoPorHora * horas);
+
+                
+
+                //Console.WriteLine($"O veículo {placa.ToUpper()} foi removido e o preço total foi de: R$ {valorTotal}");
+                Console.WriteLine($"O veículo {placa.ToUpper()} preço total foi de: R$ {valorTotal}");
+                Console.WriteLine("Valor o cliente deu: ");
+                ValorPago = Convert.ToDecimal(Console.ReadLine());
+                
+                Console.WriteLine("Forma de Pagamento:\nCC-Crédito\nCD-Débito\nD-Dinheiro ");
+                formaDePagamento = Console.ReadLine().ToUpper();
+
+
+                
+
+                    switch (formaDePagamento.ToUpper())
+                    {
+                        case "CC":
+                            if (ValorPago > valorTotal)
+                            {
+                                System.Console.WriteLine("Por favor, confirme novamente o valor a ser pago");
+                                System.Console.WriteLine("Erro");
+                                return;
+                            }
+                            else
+                            {
+
+                                System.Console.WriteLine($"O veículo {placa.ToUpper()} foi removido");
+                                veiculos.Remove(placa.ToUpper());
+                                
+                            }
+
+                            break;
+                        case "D":
+                            if (ValorPago > valorTotal)
+                            {
+                                System.Console.WriteLine($"O Cliente tem troco: {ValorPago - valorTotal}");
+                                System.Console.WriteLine($"O veículo {placa.ToUpper()} foi removido");
+                                veiculos.Remove(placa.ToUpper());
+
+                            }
+                            else
+                            {
+
+                                System.Console.WriteLine($"O veículo {placa.ToUpper()} foi removido\nCliente não tem troco");
+                                veiculos.Remove(placa.ToUpper());
+                                
+                            }
+
+                            break;
+                        case "CD":
+                            if (ValorPago > valorTotal)
+                            {
+                                System.Console.WriteLine("Por favor, confirme novamente o valor a ser pago");
+                                System.Console.WriteLine("Erro!\n Tente novamente");
+                                return;
+                            }
+                            else
+                            {
+
+                                System.Console.WriteLine($"O veículo {placa.ToUpper()} foi removido");
+                                veiculos.Remove(placa.ToUpper());
+                                
+                            }
+
+                            break;
+                        default:
+                            Console.WriteLine("Digite uma forma de Pagamento Válida");
+                            System.Console.WriteLine("Erro!\n Tente novamente");
+                            break;
+                    }
+  
+
+
+
+
+
+
             }
             else
             {
-                Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente");
+                Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente\n\n");
             }
         }
 
@@ -55,12 +132,14 @@ namespace DesafioFundamentos.Models
             if (veiculos.Any())
             {
                 Console.WriteLine("Os veículos estacionados são:");
-                // TODO: Realizar um laço de repetição, exibindo os veículos estacionados
-                // *IMPLEMENTE AQUI*
+               
+                foreach(string v in veiculos){
+                    System.Console.WriteLine(v);
+                }
             }
             else
             {
-                Console.WriteLine("Não há veículos estacionados.");
+                Console.WriteLine("Não há veículos estacionados.\n\n");
             }
         }
     }
